@@ -67,15 +67,15 @@
 $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=92101') + '&callback=?', function(response){
   console.log(response.contents);
 
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 10; i++) {
 
     var breweryLong = response.contents.data[i].longitude;
     var breweryLat = response.contents.data[i].latitude;
     if (breweryLong === undefined) {
-      breweryHours = ''
+      breweryLong = ''
     }
     if (breweryLat === undefined) {
-      breweryHours = ''
+      breweryLat = ''
     }
 
     // {
