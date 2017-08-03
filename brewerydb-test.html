@@ -34,10 +34,6 @@
             </tr>
           </thead>
           <tbody>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
           </tbody>
         </table>
       </div>
@@ -68,26 +64,54 @@
   </div>
 <script type="text/javascript">
 
-$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=92626') + '&callback=?', function(response){
+$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=92101') + '&callback=?', function(response){
   console.log(response.contents);
 
-  var firstRowTds = $("#breweryTable")
-      .children()
-      .eq(1)
-      .children("tr")
-      .eq(0)
-      .children("td");
+  for (var i = 0; i < 5; i++) {
 
-    // Setting the inner text of each td in the first row
-    firstRowTds.eq(0).html('<img width="auto" height="auto" src="' + response.contents.data[0].brewery.images.icon + '"' + ' />');
+    var breweryLong = response.contents.data[i].longitude;
+    var breweryLat = response.contents.data[i].latitude;
+    if (breweryLong === undefined) {
+      breweryHours = ''
+    }
+    if (breweryLat === undefined) {
+      breweryHours = ''
+    }
 
-    firstRowTds.eq(1).text(response.contents.data[0].brewery.name);
-    console.log(response.contents.data[0].brewery.name);
+    // {
+    //   lat: response.contents.data[i].latitude,
+    //   lng: response.contents.data[i].longitude
+    // }
 
-    firstRowTds.eq(2).text(response.contents.data[0].phone);
-    console.log(response.contents.data[0].phone);
+    // JSON.stringify(something)
 
-    firstRowTds.eq(3).text(response.contents.data[0].streetAddress + ", " + response.contents.data[0].name + ", " + response.contents.data[0].region + " " + response.contents.data[0].postalCode);
+    var breweryLatLong = "{lat:" + breweryLat + "," + "lng:" + breweryLong + " }"
+    var breweryHours = response.contents.data[i].hoursOfOperation;
+    var breweryIcons = '<a data-toggle="tooltip" data-placement="top" title="' + breweryHours + '" href="' + response.contents.data[i].website +'">' + '<img width="auto" height="auto" src="' + response.contents.data[i].brewery.images.icon + '"' + ' /></a>';
+    var breweryNames = '<a data-toggle="tooltip" data-placement="top" title="' + breweryHours + '" href="' + response.contents.data[i].website +'">' + response.contents.data[i].brewery.name + '</a>';
+    //var breweryWebsite = '<a href="' + response.contents.data[i].website +'">' + response.contents.data[i].brewery.name + '</a>';
+    var breweryPhones = response.contents.data[i].phone;
+    var breweryAddresses = response.contents.data[i].streetAddress + ", " + response.contents.data[i].locality + ", " + response.contents.data[i].region + " " + response.contents.data[i].postalCode;
+
+    if (breweryHours === undefined) {
+      breweryHours = ''
+    }
+
+    // Local temporary object holding train data
+    var newBrewery = {
+      name:  breweryNames,
+      location: breweryLatLong,
+      hours: breweryHours,
+      icon: breweryIcons,
+      phone: breweryPhones,
+      address: breweryAddresses
+    }
+    console.log(newBrewery);
+    // Uploads train data to the database
+    database.ref().push(newBrewery);
+
+    $("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
+  }
 
 });
 
