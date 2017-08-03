@@ -1,3 +1,8 @@
+/* Header Font */
+.navbar-brand {
+  font-family: "Lobster", cursive;
+
+}
 body {
   background-color: #25CED1;
 }
