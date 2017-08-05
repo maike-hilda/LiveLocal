@@ -1,6 +1,7 @@
 $(document).ready(function() {
+
 // Initialize Firebase
-  var config = {
+var config = {
     apiKey: "AIzaSyBeOFAweBtSqKpoKdQZpEDtNVjXJeH5rOw",
     authDomain: "livelocal-1f386.firebaseapp.com",
     databaseURL: "https://livelocal-1f386.firebaseio.com",
@@ -8,6 +9,7 @@ $(document).ready(function() {
     storageBucket: "",
     messagingSenderId: "185892349757"
   };
+
   firebase.initializeApp(config);
 
   var database = firebase.database();
