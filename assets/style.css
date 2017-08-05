@@ -1,0 +1,32 @@
+
+body {
+  background-color: #25CED1;
+}
+
+/* Header Font */
+.navbar-brand {
+  font-family: "Lobster", cursive;
+
+}
+
+/* Link Design */
+
+/* unvisited link */
+a:link {
+    color: #FCB07E;
+}
+
+/* visited link */
+a:visited {
+    color: green;
+}
+
+/* mouse over link */
+a:hover {
+    color: #FFE359;
+}
+
+/* selected link */
+a:active {
+    color: #FCB07E;
+}
