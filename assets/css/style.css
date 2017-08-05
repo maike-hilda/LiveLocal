@@ -1,3 +1,65 @@
+
 body {
-  background-color: #25CED1;
+  background-image: url("../images/kegs.jpg");
+}
+
+/* Body Font */
+body {
+    font-family: Quicksand;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    font-weight: 900;
+}
+
+/* Panel Heading */
+.panel-default>.panel-heading {
+	border-bottom: 3px solid #FCB07E;
+
+}
+
+/* Nav Bar */
+.container-fluid {
+	background-color: #000000;
+}	   
+
+/* Nav Bar Home */
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus{
+    color: #fff;
+    background-color: #000000;
+}    
+
+/* Nav Bar Hover */
+ .navbar-default .navbar-nav>.active>a:hover {
+ 	color: #fff;
+    background-color: #C9601A;
+ }
+
+/* Header Font */
+.navbar-default .navbar-brand {
+    color: #25CED1;
+    font-family: "Lobster", cursive;
+    font-size: 35px;
+}
+
+/* Link Design */
+
+/* unvisited link */
+a:link {
+    color: #FCB07E;
+}
+
+/* visited link */
+a:visited {
+    color: green;
+}
+
+/* mouse over link */
+a:hover {
+    color: #FFE359;
+}
+
+/* selected link */
+a:active {
+    color: #FCB07E;
 }
