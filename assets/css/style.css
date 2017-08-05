@@ -18,6 +18,11 @@ body {
 
 }
 
+/* Headers */
+.uppercase {
+    text-transform: uppercase;
+}
+
 /* Nav Bar */
 .container-fluid {
 	background-color: #000000;
