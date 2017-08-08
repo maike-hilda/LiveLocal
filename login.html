@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script
+      src="http://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body class="loginBody">
+
+<div class="container">
+	<div class="row">
+		<h2>Login / Registration Form</h2>
+	</div>
+</div>
+<br>
+<br>
+<div class="container">
+<div class="row">
+<div class="col-md-4 col-md-offset-4">
+<div class="form-body">
+    <ul class="nav nav-tabs final-login">
+        
+        <li><button type="submit" class="btn btn-info" value="Submit Button" id="sectionB">Join us!</button></li>
+    </ul>
+    <div class="tab-content">
+        <div id="sectionA" class="tab-pane fade in active">
+        <div class="innter-form">
+            <form class="sa-innate-form" method="post">
+            <label>Email Address</label>
+            <input type="text" name="username">
+            <label>Password</label>
+            <input type="password" name="password">
+            <button type="submit" id="loginSubmit">Sign In</button>
+            
+            </form>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+            var signUp = $("#sectionB")
+            signUp.on("click", function(user)
+            {
+            
+            var username = usernameTxt.value;
+            var email = emailTxt.value;
+            var password = passwordTxt.value;
+
+            firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error)
+            {
+
+
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+
+              if (errorCode == 'auth/email-already-in-use')
+              {
+                    alert('email-already-in-use.');
+                }
+                else
+                {
+                    alert(errorMessage);
+                }
+                  console.log(error);
+
+            });
+        });
+        firebase.auth().onAuthStateChanged(function(user) {
+
+          var username = usernameTxt.value;
+
+          if (user) {
+            firebaseDataBase.ref('users/' + user.uid).set({
+                email: user.email,
+                uid : user.uid,
+                username: username
+            });
+
+
+            console.log("User is signed in.");
+          } else {
+             console.log("No user is signed in.");
+
+          }
+        });
+
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+</body>
+</html>
