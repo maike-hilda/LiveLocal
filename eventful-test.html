@@ -1,0 +1,54 @@
+<html>
+
+Javascript Sample page <br>
+
+<script type="text/javascript" src="http://api.eventful.com/js/api">
+
+</script>
+
+<script type="text/javascript">
+
+
+function show_alert()
+
+{
+
+   var oArgs = {
+
+      app_key: "BJbx7N95nGjxzSGz",
+
+      q: "music",
+
+      where: "San Diego", 
+
+      "date": "2013061000-2017062000",
+
+      page_size: 5,
+
+      sort_order: "popularity",
+
+   };
+
+   EVDB.API.call("/events/search", oArgs, function(oData) {
+
+      // Note: this relies on the custom toString() methods below
+      console.log(oData);
+    });
+
+}
+
+</script>
+
+
+
+<body>
+
+Run Sample api searches <br><br>
+
+<input type="button" onclick="show_alert()" value="Query #1 " /> <br>
+
+
+</body>
+
+</html>
+
