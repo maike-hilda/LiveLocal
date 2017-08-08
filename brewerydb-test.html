@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>BreweryDB Test</title>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    
+    <div class="jumbotron text-center">
+    <h1>Mmm Beer</h1>
+    <p>Pour one out for the homies.</p>
+    </div>
+    
+    <div class="panel panel-danger">
+      <div class="panel-heading">Brewery List</div>
+      <div class="panel-body">
+        <table class="table table-hover" id="breweryTable">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Brewery Name</th>
+              <th>Phone Number</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">Search for Breweries</div>
+      <div class="panel-body">
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Zip Code</span>
+            <input id="trainName" type="text" class="form-control" placeholder="90210">
+          </div>
+          <br />
+          <div class="input-group">  
+            <span class="input-group-addon">City</span>
+            <input id="trainDest" type="text" class="form-control" placeholder="Springfield">
+          </div>
+          <br />
+          <div class="input-group">  
+            <span class="input-group-addon">State</span>
+            <input id="trainFTT" type="text" class="form-control" placeholder="California">
+          </div>
+          <br />
+          <button type="submit" id="brewerySubmit" class="btn btn-primary">Search Breweries</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript">
+
+$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=92626') + '&callback=?', function(response){
+  console.log(response.contents);
+
+  var firstRowTds = $("#breweryTable")
+      .children()
+      .eq(1)
+      .children("tr")
+      .eq(0)
+      .children("td");
+
+    // Setting the inner text of each td in the first row
+    firstRowTds.eq(0).html('<img width="auto" height="auto" src="' + response.contents.data[0].brewery.images.icon + '"' + ' />');
+
+    firstRowTds.eq(1).text(response.contents.data[0].brewery.name);
+    console.log(response.contents.data[0].brewery.name);
+
+    firstRowTds.eq(2).text(response.contents.data[0].phone);
+    console.log(response.contents.data[0].phone);
+
+    firstRowTds.eq(3).text(response.contents.data[0].streetAddress + ", " + response.contents.data[0].name + ", " + response.contents.data[0].region + " " + response.contents.data[0].postalCode);
+
+});
+
+
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDQfYrUrTZn_iCRKV4e3SuRte9T6YpN16o",
+    authDomain: "fullstack-7d2ee.firebaseapp.com",
+    databaseURL: "https://fullstack-7d2ee.firebaseio.com",
+    projectId: "fullstack-7d2ee",
+    storageBucket: "fullstack-7d2ee.appspot.com",
+    messagingSenderId: "1057228698441"
+  };
+  firebase.initializeApp(config);
+
+  // Assign the reference to the database to a variable named 'database'
+var database = firebase.database();
+
+  // Ends the on-click.
+  // return false;
+
+
+</script>
+</script>
+</body>
+</html>
