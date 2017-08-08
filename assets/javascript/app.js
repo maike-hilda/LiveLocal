@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
-
+//NavBar
+$("nav").find("li").on("click", "a", function () {
+    $('.navbar-collapse.in').collapse('hide');
+});
 
 
 // Initialize Firebase
