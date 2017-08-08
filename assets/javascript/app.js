@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-//Collapse Menu
-$('.collapse').collapse();  
+
+
 
 // Initialize Firebase
 var config = {
@@ -23,7 +23,7 @@ var config = {
 var zip = "92691";
 var isoCode = "US";
 var APIKey = "83a97e384d973f3a79b1c419080a0e41";
-var queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=" + zip + "," + isoCode + "&appid=" + APIKey;
+var queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=" + zip + "," + isoCode + "&units=imperial&appid=" + APIKey;
 
     // Here we run our AJAX call to the OpenWeatherMap API
     $.ajax({
