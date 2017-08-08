@@ -24,9 +24,15 @@ $("#submitButton").on("click", function(){
   var beerBox = document.getElementById("beerBox").checked;
   console.log("Beer Box: " + beerBox);
   
+
+
   var locationData = {
     zip: $("#zip-input").val().trim(), //"92691",
+    //city: ,
     isoCode: $(".country").attr("value"), //"US"
+    //len: ,
+    //lat: ,
+
 };  
 
   console.log(locationData);
@@ -37,15 +43,21 @@ $("#submitButton").on("click", function(){
   
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ad2bdb823ac8b30d483f3d9ff8054cc621feb5c1
 //Weather App (Jeanine)
 function weatherAPI(zip, isoCode) {
   
   // zip = "92691",
   // isoCode = "US",
   APIKey = "83a97e384d973f3a79b1c419080a0e41",
-  queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=" + zip + "," 
+  queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=" + zip + "," + isoCode + "&units=imperial&cnt=5&appid=" + APIKey;
   + isoCode + "&appid=" + APIKey,
+    
+    
+    
 
   //call OpenWeatherMap API
   $.ajax({
@@ -54,6 +66,13 @@ function weatherAPI(zip, isoCode) {
   })
   //store retrieved data in response object
   .done(function(response) {
+    
+  
+        // Log the resulting object
+        console.log(response.list[0].temp.min);
+        console.log(response.list[0].temp.max);
+        console.log(response.list[0].weather.description);
+
   // Log queryURL
   console.log(queryURL);
   // Log resulting object
@@ -116,5 +135,9 @@ $("#breweryTable").html(beerTable);
 
 });
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ad2bdb823ac8b30d483f3d9ff8054cc621feb5c1
 
       
