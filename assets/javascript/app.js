@@ -23,9 +23,15 @@ $("#submitButton").on("click", function(){
   var beerBox = document.getElementById("beerBox").checked;
   console.log("Beer Box: " + beerBox);
   
+
+
   var locationData = {
     zip: $("#zip-input").val().trim(), //"92691",
+    //city: ,
     isoCode: $(".country").attr("value"), //"US"
+    //len: ,
+    //lat: ,
+
 };  
 
   console.log(locationData);
