@@ -76,6 +76,7 @@ File Created July 31, 2017 07:49PM
 </div><!-- /.container-fluid -->
 </nav>
 
+
     <!-- Begin page content -->
     <div class="container">
         <div class="panel panel-default">
@@ -85,16 +86,16 @@ File Created July 31, 2017 07:49PM
         <div class="panel-body">
           <form>
             <div class="form-group uppercase">
-            <input type="checkbox" name="category" value="Beer"><label for="frequency">Beer</label>
-            <input type="checkbox" name="category" value="Food"><label for="frequency">Food</label>
-            <input type="checkbox" name="category" value="Events"><label for="frequency">Events</label>
-            <input type="checkbox" name="category" value="Weather"><label for="frequency">Weather</label>
+            <input type="checkbox" name="category" value="Beer" id="beerBox"><label for="frequency">Beer</label>
+            <input type="checkbox" name="category" value="Food" id="foodBox"><label for="frequency">Food</label>
+            <input type="checkbox" name="category" value="Events" id="eventsBox"><label for="frequency">Events</label>
+            <input type="checkbox" name="category" value="Weather" id="weatherBox"><label for="frequency">Weather</label>
             </div> 
 
             <!-- Country dropdown menu --> 
             <div class="iso-dropdown">
                 <select id="countries" name="countries">
-                  <option value="AF">Afghanistan</option>
+                  <option class="country" value="AF">Afghanistan</option>
                   <option value="AX">Åland Islands</option>
                   <option value="AL">Albania</option>
                   <option value="DZ">Algeria</option>
@@ -345,46 +346,29 @@ File Created July 31, 2017 07:49PM
             <!-- Zip Box -->
             <div class="zipCode">
               <!-- Text Input Box -->
-              <label for="zip-input">Zip Code</label>
-              <input type="text" id="zip-input"><br>
+              
 
             </div>
             <!-- End Zip Box -->
-          <div class="form-group">
-            <label for="frequency">Search</label>
-            <input type="text" class="form-control" id="frequency">
+          <div class="form-group zip Code">
+
+            <label for="zip-input">Zip Code</label>
+              <input type="text" id="zip-input"><br>
+            
           </div>
-          <button class="btn btn-default" id="add-train-btn" type="submit">Submit</button>
+          <button class="btn btn-default" id="submitButton" type="submit">Submit</button>
         </form>
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Panel title</h3>
-        </div>
-        <div class="panel-body">
-          <table class="table table-hover" id="train-schedule-table">
-                <thead>
-                    <tr>
-                      <th>Train Name</th>
-                      <th>Destination</th>
-                      <th>Frequency (min)</th>
-                      <th>Next Arrival</th>
-                      <th>Minutes Away</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <div id="beer"></div>
+  
 
     </div>
     
     <footer class="footer" id="contact">
         <div class="container">
-          <p class="text-muted"><p class="copyright text-muted small">&copy Charles, Jeanine, Maike, Nathan, and Nick 2017</a>
+            <p class="text-muted"><p class="copyright text-muted small">&copy Charles, Jeanine, Maike, Nathan, and Nick 2017</a>
       </div>
     </footer>
 
