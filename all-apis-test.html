@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ALL APIs + Zip Code</title>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./assets/css/style.css">-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    
+    <div class="jumbotron text-center">
+    <h1>Mmm Food</h1>
+    <p>Omm nom nom nom.</p>
+    </div>
+    
+    <div class="panel panel-danger">
+      <div class="panel-heading">Food List</div>
+      <div class="panel-body">
+        <table class="table table-hover" id="breweryTable">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Restaruant Name</th>
+              <th>Phone Number</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">Search for Food</div>
+      <div class="panel-body">
+        <form>
+          <div class="input-group">
+            <span class="input-group-addon">Zip Code</span>
+            <input id="trainName" type="text" class="form-control" placeholder="90210">
+          </div>
+          <br />
+          <div class="input-group">  
+            <span class="input-group-addon">City</span>
+            <input id="trainDest" type="text" class="form-control" placeholder="Springfield">
+          </div>
+          <br />
+          <div class="input-group">  
+            <span class="input-group-addon">State</span>
+            <input id="trainFTT" type="text" class="form-control" placeholder="California">
+          </div>
+          <br />
+          <button type="submit" id="brewerySubmit" class="btn btn-primary">Search Breweries</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript">
+
+//Global Variables
+
+latFromZip = "";
+lonFromZip = "";
+
+var isoCode = "US";
+var zipCode = "92626";
+
+//zipcode API Call, getting long and lat from zipcode
+
+$.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://www.zipcodeapi.com/rest/7c8osAOLPeY94rdTAYZIARGO66qjzzBHLK6ekV0aaZjeqx80v8J6ZqU5wlo6U0OG/info.json/' + zipCode + '/degrees'), function(response){
+  console.log(response);
+  latFromZip = response.lat;
+  lonFromZip = response.lng;
+  console.log(latFromZip);
+  console.log(lonFromZip);
+});
+
+//breweryDB API Call
+
+$.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=' + zipCode), function(response2){
+  console.log(response2);
+});
+
+//setting yelp api settings
+
+var yelpSettings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=" + zipCode,
+  "method": "GET",
+  "headers": {
+    "authorization": "Bearer 8OuUJR-QLND67vEyh8486vuUdhCg1r1IhznI1APTqBej4UAifmROjMrw2CBMnEgUMKHk5-6Ln5rCJ59DE0--la2JjRPQxpcyAsC-VujIK6IOeIbuvl9089KC0ad_WXYx",
+    "cache-control": "no-cache",
+    "postman-token": "c6b3fdba-dd4b-d7a6-81db-6431f96e23ee"
+  }
+}
+
+//Yelp API Call
+
+$.ajax(yelpSettings).done(function (response3) {
+  console.log(response3);
+});
+
+//openweathermap API Call
+
+$.getJSON('https://cors-anywhere.herokuapp.com/' + ('http://api.openweathermap.org/data/2.5/forecast/daily?zip=' + zipCode + '&isoCode=' + isoCode + '&units=imperial&appid=83a97e384d973f3a79b1c419080a0e41' ), function(response4){
+  console.log(response4);
+});
+
+//setting eventful api settings
+
+var eventfulSettings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://cors-anywhere.herokuapp.com/http://eventful.com/json/events/search/?app_key=BJbx7N95nGjxzSGz&location=" + zipCode,
+  "method": "GET",
+  "dataType": 'JSON',
+  "headers": {
+    "cache-control": "no-cache"
+  }
+}
+
+//eventful API Call
+
+$.ajax(eventfulSettings).done(function (response5) {
+  console.log(response5.events);
+});
+
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDQfYrUrTZn_iCRKV4e3SuRte9T6YpN16o",
+    authDomain: "fullstack-7d2ee.firebaseapp.com",
+    databaseURL: "https://fullstack-7d2ee.firebaseio.com",
+    projectId: "fullstack-7d2ee",
+    storageBucket: "fullstack-7d2ee.appspot.com",
+    messagingSenderId: "1057228698441"
+  };
+  firebase.initializeApp(config);
+
+  // Assign the reference to the database to a variable named 'database'
+var database = firebase.database();
+
+  // Ends the on-click.
+  // return false;
+
+
+</script>
+</script>
+</body>
+</html>
