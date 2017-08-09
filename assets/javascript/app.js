@@ -43,10 +43,7 @@ $("#submitButton").on("click", function(){
   
 });
 
-<<<<<<< HEAD
 
-=======
->>>>>>> ad2bdb823ac8b30d483f3d9ff8054cc621feb5c1
 //Weather App (Jeanine)
 function weatherAPI(zip, isoCode) {
   
@@ -133,11 +130,4 @@ console.log(beerTable)
 $("#breweryTable").html(beerTable);
 };
 
-});
-
-<<<<<<< HEAD
-=======
-
->>>>>>> ad2bdb823ac8b30d483f3d9ff8054cc621feb5c1
-
-      
+});      
