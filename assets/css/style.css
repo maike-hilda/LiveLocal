@@ -4,11 +4,12 @@
     /* The image used */
     background-image: url("../images/mashtun65.jpg");
     padding-top: 30px;
-    height: 570px;
+    height: 800px;
     background-color: #333;
     background-size: cover;
     background-position: center center;
 }
+
 
 /* Hero Text */
 .hero-text {
@@ -43,18 +44,10 @@ body {
     font-weight: 900;
 }
 
-/* Body box */
-
-/* Panel Heading */
-/*.panel-default>.panel-heading {
-	border-bottom: 3px solid #FCB07E;
-
-}*/
-
 /* Headers */
-/*.uppercase {
+.uppercase {
     text-transform: uppercase;
-}*/
+}
 
 /* Nav Bar */
 /* stroke */

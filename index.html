@@ -7,6 +7,8 @@ File Created July 31, 2017 07:49PM
 <head>
   <title>Live Local - Home</title>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Lobster|Quicksand:700" rel="stylesheet">  
   <link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
@@ -29,6 +31,7 @@ File Created July 31, 2017 07:49PM
 
 </head>
 <body>
+<div class="hero-image">
 <nav class="navbar navbar-inverse stroke navbar-fixed-top" style="margin-bottom: 0px">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -60,10 +63,9 @@ File Created July 31, 2017 07:49PM
     </div>
   </div>
 </nav>
-<div class="hero-image">
  <!--  Begin page content -->
-  <div class="hero-text">
-    <div class="container">
+  <div class="container">
+    <div class="hero-text">
       <img src="assets/images/LiveLocal-logo-blue.png" href="#" alt="Live Local. Drink craft, watch live">
         <form>
           <div class="form-group uppercase">
@@ -341,7 +343,6 @@ File Created July 31, 2017 07:49PM
           </form>
       </div>
   </div>
-</div>
 <div class="container">
 <div id="beer"></div>
 <div id="food"></div>
@@ -352,6 +353,8 @@ File Created July 31, 2017 07:49PM
 
 
 <div id="map"></div>
+</div>
+
 
 <!--<script>
 
@@ -396,10 +399,9 @@ var infowindow = new google.maps.InfoWindow({
     </script>-->
 
 
-
-
-
 </div>
+
+
     <footer class="footer" id="contact">
         <div class="container">
           <p class="text-muted"><p class="copyright text-muted small">&copy Charles, Jeanine, Maike, Nathan, and Nick 2017</a>
@@ -416,9 +418,12 @@ var infowindow = new google.maps.InfoWindow({
 
 <!-- JQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Moment.js -->
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
+
 
 </body>
 </html>
