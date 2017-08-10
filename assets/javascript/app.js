@@ -166,15 +166,23 @@ if (checked === true) {
   $.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=' + zipCode), function(response){
   console.log(response);
 
-    for (var i = 0; i < 2; i++) {
-    // var breweryLong = response.data[i].longitude;
-    // if (breweryLong === undefined) {
-    //   breweryLong = '';
-    // }
-    // var breweryLat = response.data[i].latitude;
-    // if (breweryLat === undefined) {
-    //   breweryLat = '';
-    // }
+    var amountOfBreweries = response.data.length;
+
+    for (var i = 0; i < amountOfBreweries; i++) {
+
+    if (response.data[i].longitude === "undefined" || response.data[i].longitude === null) {
+      breweryLong = '';
+    }
+    else {
+      var breweryLong = response.data[i].longitude;
+    }
+    
+    if (response.data[i].latitude === "undefined" || response.data[i].longitude === null) {
+      breweryLat = '';
+    }
+    else {
+      var breweryLat = response.data[i].latitude;
+    }
     
     //var breweryLatLong = "{lat:" + breweryLat + "," + "lng:" + breweryLong + "}"
     //var breweryHours = response.data[i].hoursOfOperation;
