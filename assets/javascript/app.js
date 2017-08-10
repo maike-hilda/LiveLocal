@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+//Burger Menu
+$('.burger').click(function () {
+  $(this).toggleClass('open');
+});
 
 // Initialize Firebase
 var config = {
