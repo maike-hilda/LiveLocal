@@ -147,61 +147,68 @@ $(document).ready(function() {
       //Beer API (Nick)
       $.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=' + zipCode), function(response){
         console.log(response);
-        var amountOfBreweries = response.data.length;
+        
+        if (response.hasOwnProperty('totalResults')){
 
-        for (var i = 0; i < amountOfBreweries; i++) {
+          var amountOfBreweries = response.data.length;
 
-        if (response.data[i].longitude === "undefined" || response.data[i].longitude === null) {
-          breweryLong = '';
+          for (var i = 0; i < amountOfBreweries; i++) {
+
+          if (response.data[i].longitude === "undefined" || response.data[i].longitude === null) {
+            breweryLong = '';
+          }
+          else {
+            var breweryLong = response.data[i].longitude;
+          }
+          
+          if (response.data[i].latitude === "undefined" || response.data[i].longitude === null) {
+            breweryLat = '';
+          }
+          else {
+            var breweryLat = response.data[i].latitude;
+          }
+          //var breweryLatLong = "{lat:" + breweryLat + "," + "lng:" + breweryLong + "}"
+          //var breweryHours = response.data[i].hoursOfOperation;
+            var breweryIcons = '<a data-toggle="tooltip" data-placement="top" title="' 
+            //+ breweryHours 
+            //+ '" href="' + response.data[i].website 
+            +'">' 
+            + '<img width="auto" height="auto" src="' + response.data[i].brewery.images.icon 
+            + '"' + ' /></a>';
+            var breweryNames = '<a data-toggle="tooltip" data-placement="top" title="' //+ breweryHours 
+              + '" href="' + response.data[i].website +'">' + response.data[i].brewery.name + '</a>';
+            //var breweryWebsite = '<a href="' + response.contents.data[i].website +'">' + response.contents.data[i].brewery.name + '</a>';
+            var breweryPhones = response.data[i].phone;
+            var breweryAddresses = response.data[i].streetAddress + ", " + response.data[i].locality + ", " 
+              + response.data[i].region + " " + response.data[i].postalCode;
+      
+            // if (breweryHours === undefined) {
+            //   breweryHours = ''
+            // }
+            // Local temporary object holding brewery data
+            var newBrewery = {
+              name:  breweryNames,
+              //location: breweryLatLong,
+              //hours: breweryHours,
+              icon: breweryIcons,
+              phone: breweryPhones,
+              address: breweryAddresses
+            };
+            console.log(newBrewery);
+            // Uploads brewery data to the database
+            database.ref().push(newBrewery);
+            //$("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
+          
+            var beerTableContent = '<tbody><td>' + breweryIcons + '</td><td>' + breweryNames
+                            + '</td><td>' + breweryPhones + '</td><td>'
+                            + breweryAddresses + '</td></tbody>';
+
+            beerTable.append(beerTableContent);
+
+          }
         }
         else {
-          var breweryLong = response.data[i].longitude;
-        }
-        
-        if (response.data[i].latitude === "undefined" || response.data[i].longitude === null) {
-          breweryLat = '';
-        }
-        else {
-          var breweryLat = response.data[i].latitude;
-        }
-        //var breweryLatLong = "{lat:" + breweryLat + "," + "lng:" + breweryLong + "}"
-        //var breweryHours = response.data[i].hoursOfOperation;
-          var breweryIcons = '<a data-toggle="tooltip" data-placement="top" title="' 
-          //+ breweryHours 
-          //+ '" href="' + response.data[i].website 
-          +'">' 
-          + '<img width="auto" height="auto" src="' + response.data[i].brewery.images.icon 
-          + '"' + ' /></a>';
-          var breweryNames = '<a data-toggle="tooltip" data-placement="top" title="' //+ breweryHours 
-            + '" href="' + response.data[i].website +'">' + response.data[i].brewery.name + '</a>';
-          //var breweryWebsite = '<a href="' + response.contents.data[i].website +'">' + response.contents.data[i].brewery.name + '</a>';
-          var breweryPhones = response.data[i].phone;
-          var breweryAddresses = response.data[i].streetAddress + ", " + response.data[i].locality + ", " 
-            + response.data[i].region + " " + response.data[i].postalCode;
-    
-          // if (breweryHours === undefined) {
-          //   breweryHours = ''
-          // }
-          // Local temporary object holding brewery data
-          var newBrewery = {
-            name:  breweryNames,
-            //location: breweryLatLong,
-            //hours: breweryHours,
-            icon: breweryIcons,
-            phone: breweryPhones,
-            address: breweryAddresses
-          };
-          console.log(newBrewery);
-          // Uploads brewery data to the database
-          database.ref().push(newBrewery);
-          //$("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
-        
-          var beerTableContent = '<tbody><td>' + breweryIcons + '</td><td>' + breweryNames
-                          + '</td><td>' + breweryPhones + '</td><td>'
-                          + breweryAddresses + '</td></tbody>';
-
-          beerTable.append(beerTableContent)
-
+          beerTable.append("<tbody><td>No breweries in this area. Try another zip code. </td></tbody>");
         }
 
         // var beerTableContent = '<tbody><td><img width="auto" height="auto" src="' 
