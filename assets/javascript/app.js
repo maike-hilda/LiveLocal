@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
   // Initialize Firebase
   var config = {
       apiKey: "AIzaSyBeOFAweBtSqKpoKdQZpEDtNVjXJeH5rOw",
@@ -25,6 +26,7 @@ $(document).ready(function() {
     var beerBox = document.getElementById("beerBox").checked;
     
     locationData = {
+
     zip: $("#zip-input").val().trim(), //"92691",
     //city: ,
     isoCode: $("#countries").val(), 
@@ -232,21 +234,23 @@ $(document).ready(function() {
   };
 
 
-  function foodAPI(zipCode, checked) {
-
-    var food = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Food</h3>'
-              + '</div><div class="panel-body"><div id="breweryTable"></div></div></div>');
-
-    $("#food").html(food);
-
-    var foodTable = $("<table>");
-    foodTable.addClass("table table-hover");
-
-    var foodTableHeader = $("<thead><tr><th>Logo</th><th>Name of Establishment</th><th>Phone</th><th>Address</th></tr></thead>");
-    foodTable.append(foodTableHeader);
+function foodAPI(zipCode, checked) {
 
     if (checked === true) {
-    //setting yelp api settings
+      
+      console.log("inside foodAPI");
+      var food = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Food</h3>'
+              + '</div><div class="panel-body"><div id="foodTable"></div></div></div>');
+
+      $("#food").html(food);
+
+      var foodTable = $("<table>");
+      foodTable.addClass("table table-hover");
+
+      var foodTableHeader = $("<thead><tr><th>Logo</th><th>Name of Establishment</th><th>Phone Number</th><th>Address</th></tr></thead>");
+      foodTable.append(foodTableHeader);
+
+
       var yelpSettings = {
         "async": true,
         "crossDomain": true,
@@ -256,44 +260,66 @@ $(document).ready(function() {
         "authorization": "Bearer 8OuUJR-QLND67vEyh8486vuUdhCg1r1IhznI1APTqBej4UAifmROjMrw2CBMnEgUMKHk5-6Ln5rCJ59DE0--la2JjRPQxpcyAsC-VujIK6IOeIbuvl9089KC0ad_WXYx",
         "cache-control": "no-cache",
         "postman-token": "c6b3fdba-dd4b-d7a6-81db-6431f96e23ee"
-      }
-    };
+        }
+      };
 
 
-    //Yelp API Call
-    $.ajax(yelpSettings).done(function (responseYelp) {
-      console.log(responseYelp);
-      for (var i = 0; i < 10; i++) {
+      $.ajax(yelpSettings).done(function (responseYelp) {
+        console.log(responseYelp);
+        for (var i = 0; i < 10; i++) {
         var yelpLong = responseYelp.businesses[i].coordinates.longitude;
-      if (yelpLong === undefined) {
-        yelpLong = '';
-      }
-      var yelpLat = responseYelp.businesses[i].coordinates.latitude;
-      if (yelpLat === undefined) {
-        yelpLat = '';
-      }
-      var yelpLatLong = "{lat:" + yelpLat + "," + "lng:" + yelpLong + "}"
-      var yelpName = "<a href='" + responseYelp.businesses[i].url + "'>" + responseYelp.businesses[i].name + "</a>";
-      var yelpAddress = responseYelp.businesses[i].location.display_address;
-      var yelpPhone = responseYelp.businesses[i].display_phone;
-      var yelpIcon = "<img height='60px' width='auto' src='" + responseYelp.businesses[i].image_url + "' />";
-    
-      // $("#restaurantTable > tbody").append("<tr><td>" + yelpIcon + "</td>" + "<td>" + yelpName + "</td>" + "<td>" + yelpPhone + "</td>" + "<td>" + yelpAddress + "</td>" + "<td class='hide'>" + yelpLong + "</td>" + "<td class='hide'>" + yelpLat + "</td>" +"</tr>");
-      // }
+        if (yelpLong === undefined) {
+          yelpLong = '';
+        }
+        var yelpLat = responseYelp.businesses[i].coordinates.latitude;
+        if (yelpLat === undefined) {
+          yelpLat = '';
+        }
+        var yelpLatLong = "{lat:" + yelpLat + "," + "lng:" + yelpLong + "}"
+        var yelpName = "<a href='" + responseYelp.businesses[i].url + "'>" + responseYelp.businesses[i].name + "</a>";
+        var yelpAddress = responseYelp.businesses[i].location.display_address;
+        var yelpPhone = responseYelp.businesses[i].display_phone;
+        var yelpIcon = "<img height='60px' width='auto' src='" + responseYelp.businesses[i].image_url + "' />";
+        
+        // $("#restaurantTable > tbody").append("<tr><td>" 
+        //     + yelpIcon + "</td>" + "<td>" + yelpName + "</td>" 
+        //     + "<td>" + yelpPhone + "</td>" + "<td>" + yelpAddress + "</td>" 
+        //     + "<td class='hide'>" + yelpLong + "</td>" + "<td class='hide'>" + yelpLat + "</td>" +"</tr>");
+        // }
 
-      // Uploads brewery data to the database
-      //database.ref().push(newBrewery);
-      var foodTableContent = '<tbody><td>' + yelpIcon + '</td><td>' + yelpName
-                          + '</td><td>' + yelpPhone + '</td><td>'
-                          + yelpAddress + '</td></tbody>';
+        // console.log(newFood);
+        // // Uploads brewery data to the database
+        // database.ref().push(newBrewery);
+        // //$("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
+        
+        var foodTableContent = '<tbody><td>' + yelpIcon + '</td><td>' + yelpName
+                        + '</td><td>' + yelpPhone + '</td><td>'
+                        + yelpAddress + '</td></tbody>';
 
-      foodTable.append(foodTableContent)
-    };
-  });
-  console.log(foodTable)
-  $("#foodTable").html(foodTable);
-  }; //close if
+        foodTable.append(foodTableContent);
+
+        }
+      });
+        console.log(foodTable)
+      $("#foodTable").html(foodTable);
+    }; //close if
 
   }; //close foodAPI
+
+
+// songkickAPI
+$.getJSON("http://api.songkick.com/api/3.0/events.json?&location=clientip&apikey=5LOMbZ6HSzTdcX4e&jsoncallback=?",function(data) {
+
+console.log(data.resultsPage.results);
+
+for (var i = 0; i < 10; i++) {
+  console.log(data.resultsPage.results.event[i].displayName);
+  var tr = $('<tr/>');
+  $(tr).append("<td>" + "<a href=" + data.resultsPage.results.event[i].uri + ">" + data.resultsPage.results.event[i].displayName + "</a>" + "</td>");
+  $(tr).append("<td>" + data.resultsPage.results.event[i].location.city + "</td>");
+  $('.table1').append(tr); 
+ }
+
+});// close songkickAPI
 
 });
