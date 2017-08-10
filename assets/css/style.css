@@ -1,0 +1,114 @@
+/* Hero Image */
+/* The hero image */
+.hero-image {
+    /* The image used */
+    background-image: url("../images/mashtun65.jpg");
+    padding-top: 30px;
+    height: 570px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center center;
+}
+
+/* Hero Text */
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+h3 {
+	color: #25CED1;
+    font-family: "Lobster", cursive;
+    font-size: 35px;
+}
+
+.hero-text-color {
+	color: white;
+}
+
+/* Countries Dropdown */
+.iso-dropdown {
+	color: black;
+}
+
+/* Body Font */
+body {
+    font-family: Quicksand;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    font-weight: 900;
+}
+
+/* Body box */
+
+/* Panel Heading */
+/*.panel-default>.panel-heading {
+	border-bottom: 3px solid #FCB07E;
+
+}*/
+
+/* Headers */
+/*.uppercase {
+    text-transform: uppercase;
+}*/
+
+/* Nav Bar */
+/* stroke */
+nav.stroke ul li a,
+nav.fill ul li a {
+  position: relative;
+}
+nav.stroke ul li a:after,
+nav.fill ul li a:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: '.';
+  color: transparent;
+  background: #aaa;
+  height: 1px;
+}
+nav.stroke ul li a:hover:after {
+  width: 100%;
+}
+
+nav.fill ul li a {
+  transition: all 2s;
+}
+
+nav.fill ul li a:after {
+  text-align: left;
+  content: '.';
+  margin: 0;
+  opacity: 0;
+}
+nav.fill ul li a:hover {
+  color: #fff;
+  z-index: 1;
+}
+nav.fill ul li a:hover:after {
+  z-index: -10;
+  animation: fill 1s forwards;
+  -webkit-animation: fill 1s forwards;
+  -moz-animation: fill 1s forwards;
+  opacity: 1;
+}
+
+/* Header Font */
+.navbar-brand {
+    color: #25CED1;
+    font-family: "Lobster", cursive;
+    font-size: 35px;
+}
+
+
+
+/* Media Rules */
+/*@media screen and (max-width: 768px) {*/
