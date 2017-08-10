@@ -1,10 +1,5 @@
 $(document).ready(function() {
 
-//NavBar
-$("nav").find("li").on("click", "a", function () {
-    $('.navbar-collapse.in').collapse('hide');
-});
-
 
 // Initialize Firebase
 var config = {
@@ -47,6 +42,7 @@ $("#submitButton").on("click", function(){
 
   
 });
+
 
 //Weather App (Jeanine)
 function weatherAPI(zip, isoCode) {
@@ -134,8 +130,4 @@ console.log(beerTable)
 $("#breweryTable").html(beerTable);
 };
 
-});
-
-
-
-      
+});      
