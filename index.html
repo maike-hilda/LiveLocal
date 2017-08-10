@@ -21,8 +21,17 @@ File Created July 31, 2017 07:49PM
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 
+<!-- <style>
+       #map {
+        height: 400px;
+        width: 60%;
+       }
+    </style> -->
+
+
 </head>
 <body>
+<div class="hero-image">
 <nav class="navbar navbar-inverse stroke navbar-fixed-top" style="margin-bottom: 0px">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -54,11 +63,10 @@ File Created July 31, 2017 07:49PM
     </div>
   </div>
 </nav>
-<div class="hero-image">
  <!--  Begin page content -->
-  <div class="hero-text">
-    <div class="container">
-      <img src="assets/images/LiveLocal-logo-blue.png" href="#" alt="Live Local. Drink craft, watch live">
+  <div class="container">
+    <div class="hero-text">
+      <img class="logo" src="assets/images/LiveLocal-logo-blue.png" href="#" alt="Live Local. Drink craft, watch live">
         <form>
           <div class="form-group uppercase">
             <input type="checkbox" name="category" value="Beer" id="beerBox" class="hero-text-color"><label for="frequency">Beer</label>
@@ -335,11 +343,12 @@ File Created July 31, 2017 07:49PM
           </form>
       </div>
   </div>
-</div>
-<div id="beer"></div>
-<div id="food"></div>
-<div id="events"></div>
-<div id="weather"></div>
+  <div class="container">
+    <div id="beer"></div>
+    <div id="food"></div>
+    <div id="events"></div>
+    <div id="weather"></div>
+  </div>
 
     <footer class="footer" id="contact">
         <div class="container">
@@ -357,9 +366,12 @@ File Created July 31, 2017 07:49PM
 
 <!-- JQuery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Moment.js -->
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
+
 
 </body>
 </html>

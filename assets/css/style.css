@@ -2,18 +2,16 @@
 /* The hero image */
 .hero-image {
     /* The image used */
-    background-image: url("../images/mashtun65.jpg");
+    /*background-image: url("../images/mashtun65.jpg");*/
+    background-image: url("../images/kerfuffle85.jpg");
     padding-top: 30px;
-    height: 570px;
+    height: 1000px;
     background-color: #333;
     background-size: cover;
     background-position: center center;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-}
+
 
 /* Hero Text */
 .hero-text {
@@ -22,6 +20,7 @@ img {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    top: 400px;
 }
 
 h3 {
@@ -41,12 +40,20 @@ h3 {
 
 /* Body Font */
 body {
+
     font-family: Quicksand;
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
     font-weight: 900;
 }
+
+
+/* Headers */
+.uppercase {
+    text-transform: uppercase;
+}
+
 
 /* Nav Bar */
 /* stroke */
@@ -93,69 +100,7 @@ nav.fill ul li a:hover:after {
   opacity: 1;
 }
 
-/* Burger Menu */
-.burger {
-	$width: 28px;
-	$thickness: 4px;
-	
-	border: 0;
-	background: none;
-	outline: 0;
-	padding: 0;
-	cursor: pointer;
 
-	border-bottom: $thickness solid currentColor;
-	width: $width;
-
-	transition: border-bottom 1s ease-in-out;
-	-webkit-transition: border-bottom 1s ease-in-out; 
-
-	// Fix for extra space in Firefox
-	&::-moz-focus-inner {
-		border: 0;
-		padding: 0;
-	}	 
-
-	&:before {
-		content: "";
-		display: block;
-		border-bottom: $thickness solid currentColor;
-		width: 100%;
-		margin-bottom: 5px;
-		transition: transform 0.5s ease-in-out;    
-		-webkit-transition: -webkit-transform 0.5s ease-in-out;        
-	}
-
-	&:after {
-		content: "";
-		display: block;
-		border-bottom: $thickness solid currentColor;
-		width: 100%;
-		margin-bottom: 5px;
-		transition: transform 0.5s ease-in-out;
-		-webkit-transition: -webkit-transform 0.5s ease-in-out;
-	}
-
-	&.open {
-		border-bottom: $thickness solid transparent;
-		transition: border-bottom 0.8s ease-in-out;
-		-webkit-transition: border-bottom 0.8s ease-in-out;
-
-		&:before {
-			transform: rotate(-405deg) translateY(1px) translateX(-3px);
-			-webkit-transform: rotate(-405deg) translateY(1px) translateX(-3px);      
-			transition: transform 0.5s ease-in-out;
-			-webkit-transition: -webkit-transform 0.5s ease-in-out;
-		}
-
-		&:after {
-			transform: rotate(405deg) translateY(-4px) translateX(-5px); 
-			-webkit-transform: rotate(405deg) translateY(-4px) translateX(-5px);       
-			transition: transform 0.5s ease-in-out;
-			-webkit-transition: -webkit-transform 0.5s ease-in-out;
-		}
-	}
-}
 
 /* Header Font */
 .navbar-brand {
@@ -164,28 +109,32 @@ nav.fill ul li a:hover:after {
     font-size: 35px;
 }
 
+/* Results Div */
+#beer {
+	margin-top: 600px;
+}
+
+
 
 
 /* Media Rules */
+
 @media screen and (max-width: 768px) {
-	/* Hero Image */
-	/* The hero image */
-	.hero-image {
-	    /* The image used */
-	    background-image: url("../images/mashtun65.jpg");
-	    padding-top: 30px;
-	    height: 1040px;
-	    background-color: #333;
-	    background-size: cover;
-	    background-position: center center;
+
+.hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 300px;
+}
+	.logo {
+		width: 300px;
 	}
 
-	/* Hero Text */
-	.hero-text {
-	    text-align: center;
-/*	    position: absolute;
-	    top: 50%;
-	    left: 50%;
-	    transform: translate(-50%, -50%);*/
-	}
+#beer {
+	margin-top: 500px;
+}
+
 }
