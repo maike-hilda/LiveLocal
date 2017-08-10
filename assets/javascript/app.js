@@ -14,6 +14,8 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+var locationData;
+
 //submit button
 $("#submitButton").on("click", function(){
   event.preventDefault();
@@ -24,49 +26,117 @@ $("#submitButton").on("click", function(){
   console.log("Beer Box: " + beerBox);
   
 
-
-  var locationData = {
+  locationData = {
     zip: $("#zip-input").val().trim(), //"92691",
     //city: ,
-    isoCode: $(".country").attr("value"), //"US"
+    isoCode: "US", //$(".country").attr("value"), 
     //len: ,
     //lat: ,
+    };  
 
-};  
+ console.log(locationData);
 
-  console.log(locationData);
+// locationData = Object.assign({},locationData,zipCodeAPI(locationData.zip, locationData.isoCode));
 
-  beerAPI(locationData.zip, beerBox);
-  //weatherAPI(locationData.zip, locationData.isoCode);
+// console.log(locationData); 
 
+// weatherData = zipCodeAPI(locationData.zip, locationData.isoCode);
+
+// console.log(weatherData);
+
+
+  zipCodeAPI(locationData.zip, locationData.isoCode);
   
+  beerAPI(locationData.zip, beerBox);
+
+  foodAPI(locationData.zip, foodBox);
+  
+  weatherAPI(locationData.zip, locationData.isoCode, weatherBox);
+
+});
+
+
+function zipCodeAPI(zipCode, isoCode) {
+//zipcode API Call, getting long and lat from zipcode
+$.getJSON('https://cors-anywhere.herokuapp.com/' 
+  + ('https://www.zipcodeapi.com/rest/7c8osAOLPeY94rdTAYZIARGO66qjzzBHLK6ekV0aaZjeqx80v8J6ZqU5wlo6U0OG/info.json/' 
+    + zipCode + '/degrees'), 
+  function(response){
+    console.log(response);
+
+    locationData = Object.assign({},locationData, {lat: response.lat, lng: response.lng, city: response.city} );
+
+    //return { lat: response.lat, lng: response.lng };    
+    console.log(locationData);
+});
+
+};
+
+
+
+function weatherAPI(zipCode, isoCode, checked) {
+
+if (checked === true) {  
+
+  var weather = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Weather</h3>'
+              + '</div><div class="panel-body"><div id="weatherTable"></div></div></div>');
+
+  $("#weather").html(weather);
+
+
+  var weatherTable = $("<table>");
+  weatherTable.addClass("table table-hover");
+
+  var weatherTableHeader = $("<thead><tr><th>City</th><th>Temperature</th><th>Humidity</th><th>Wind</th></tr></thead>");
+  weatherTable.append(weatherTableHeader);
+//openweathermap API Call
+$.getJSON('https://cors-anywhere.herokuapp.com/' 
+  + ('http://api.openweathermap.org/data/2.5/forecast/daily?zip=' + zipCode + ',' 
+  + isoCode + '&units=imperial&appid=83a97e384d973f3a79b1c419080a0e41&cnt=5' ), function(responseWeather){
+  console.log(responseWeather);
+  var oneDayTempCity = responseWeather.city.name;
+  var oneDayTempDay = responseWeather.list[0].temp.day;
+  var oneDayTempMax = responseWeather.list[0].temp.max;
+  var oneDayTempMin = responseWeather.list[0].temp.min;
+  var oneDayTempNight = responseWeather.list[0].temp.night;
+  var oneDayHumidity = responseWeather.list[0].humidity;
+  var oneDayWind = responseWeather.list[0].speed;
+  var oneDayIcon = "http://openweathermap.org/img/w/" + responseWeather.list[0].weather[0].icon + ".png";
+  console.log(oneDayIcon);
+
+
+  // $("#weatherTable > tbody").append("<tr><td>" + oneDayTempCity + "<img src='" + oneDayIcon + "'/></td>" + "<td>" + oneDayTempDay + "&deg; ( High: " + oneDayTempMax +"&deg; / Low: " + oneDayTempMin + "&deg; ) </td>" + "<td>" 
+  //   + oneDayHumidity + "% </td>" + "<td>" + oneDayWind + " MPH</td>" + "</tr>");
+  
+
+    //$("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
+  
+    var weatherTableContent = '<tbody><td>' + oneDayTempCity + '<img src="' + oneDayIcon + '"/></td><td>' + + oneDayTempDay + "&deg; ( High: " + oneDayTempMax +"&deg; / Low: " + oneDayTempMin + '&deg; ) </td><td>' 
+              + oneDayHumidity + '% </td><td>' + oneDayWind + " MPH</td>" + '</td></tbody>';
+
+    weatherTable.append(weatherTableContent)
+
+
+  var newForecast = {
+  dayOneTempDuringDay:  oneDayTempDay,
+  dayOneTempMax: oneDayTempMax,
+  dayOneTempMin: oneDayTempMin,
+  dayOneTempDuringNight: oneDayTempNight,
+  dayOneHumidity: oneDayHumidity,
+  dayOneWind: oneDayWind,
+  dayOneIcon: oneDayIcon
+  }
+
+  database.ref().push(newForecast);
+
 });
 
 
 
-//Weather App (Jeanine)
-function weatherAPI(zip, isoCode) {
-  
-  // zip = "92691",
-  // isoCode = "US",
-  APIKey = "83a97e384d973f3a79b1c419080a0e41",
-  queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=" + zip + "," 
-  + isoCode + "&appid=" + APIKey,
+console.log(weatherTable)
+$("#weatherTable").html(weatherTable);
 
-  //call OpenWeatherMap API
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  })
-  //store retrieved data in response object
-  .done(function(response) {
-  // Log queryURL
-  console.log(queryURL);
-  // Log resulting object
-  console.log(response);
-  });   
-
-
+};
 
 };
 
@@ -80,10 +150,10 @@ if (checked === true) {
   console.log("inside beerAPI");
 
 
- var beer = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Breweries</h3>'
+  var beer = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Breweries</h3>'
               + '</div><div class="panel-body"><div id="breweryTable"></div></div></div>');
 
- $("#beer").append(beer);
+  $("#beer").html(beer);
 
 
   var beerTable = $("<table>");
@@ -93,34 +163,143 @@ if (checked === true) {
   beerTable.append(beerTableHeader);
 
   //Beer API (Nick)
+  $.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=' + zipCode), function(response){
+  console.log(response);
 
+    for (var i = 0; i < 2; i++) {
+    // var breweryLong = response.data[i].longitude;
+    // if (breweryLong === undefined) {
+    //   breweryLong = '';
+    // }
+    // var breweryLat = response.data[i].latitude;
+    // if (breweryLat === undefined) {
+    //   breweryLat = '';
+    // }
+    
+    //var breweryLatLong = "{lat:" + breweryLat + "," + "lng:" + breweryLong + "}"
+    //var breweryHours = response.data[i].hoursOfOperation;
+    var breweryIcons = '<a data-toggle="tooltip" data-placement="top" title="' 
+      //+ breweryHours 
+      //+ '" href="' + response.data[i].website 
+      +'">' 
+      + '<img width="auto" height="auto" src="' + response.data[i].brewery.images.icon 
+      + '"' + ' /></a>';
+    var breweryNames = '<a data-toggle="tooltip" data-placement="top" title="' //+ breweryHours 
+      + '" href="' + response.data[i].website +'">' + response.data[i].brewery.name + '</a>';
+    //var breweryWebsite = '<a href="' + response.contents.data[i].website +'">' + response.contents.data[i].brewery.name + '</a>';
+    var breweryPhones = response.data[i].phone;
+    var breweryAddresses = response.data[i].streetAddress + ", " + response.data[i].locality + ", " 
+      + response.data[i].region + " " + response.data[i].postalCode;
+    
+    // if (breweryHours === undefined) {
+    //   breweryHours = ''
+    // }
+    // Local temporary object holding brewery data
+    var newBrewery = {
+      name:  breweryNames,
+      //location: breweryLatLong,
+      //hours: breweryHours,
+      icon: breweryIcons,
+      phone: breweryPhones,
+      address: breweryAddresses
+    }
+    console.log(newBrewery);
+    // Uploads brewery data to the database
+    database.ref().push(newBrewery);
+    //$("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
+  
+    var beerTableContent = '<tbody><td>' + breweryIcons + '</td><td>' + breweryNames
+                          + '</td><td>' + breweryPhones + '</td><td>'
+                          + breweryAddresses + '</td></tbody>';
 
-  $.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=' + zipCode)
-    , function(response){
-    console.log(response.contents);
+    beerTable.append(beerTableContent)
 
- // var beerTableContent;
+  }
 
-  var beerTableContent = '<tbody><td><img width="auto" height="auto" src="' 
-                          + response.data[0].brewery.images.icon + '"' 
-                          + ' /></td><td>' + response.data[0].brewery.name
-                          + '</td><td>' + response.data[0].phone + '</td><td>'
-                          + response.data[0].streetAddress + ", " 
-                          + response.data[0].name + ", " 
-                          + response.data[0].region + " " 
-                          + response.data[0].postalCode + '</td></tbody>';
+    // var beerTableContent = '<tbody><td><img width="auto" height="auto" src="' 
+    //                       + response.data[0].brewery.images.icon + '"' 
+    //                       + ' /></td><td>' + response.data[0].brewery.name
+    //                       + '</td><td>' + response.data[0].phone + '</td><td>'
+    //                       + response.data[0].streetAddress + ", " 
+    //                       + response.data[0].name + ", " 
+    //                       + response.data[0].region + " " 
+    //                       + response.data[0].postalCode + '</td></tbody>';
 
-  //beerTableContent.attr("id", "breweryTableContent");
+    // //beerTableContent.attr("id", "breweryTableContent");
 
-  beerTable.append(beerTableContent)
+    // beerTable.append(beerTableContent)
 
   });
 };
+
 console.log(beerTable)
 $("#breweryTable").html(beerTable);
 };
 
+
+function foodAPI(zipCode, checked) {
+
+  var food = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Food</h3>'
+              + '</div><div class="panel-body"><div id="breweryTable"></div></div></div>');
+
+  $("#food").html(food);
+
+  var foodTable = $("<table>");
+  foodTable.addClass("table table-hover");
+
+  var foodTableHeader = $("<thead><tr><th>Logo</th><th>Name of Establishment</th><th>Phone</th><th>Address</th></tr></thead>");
+  foodTable.append(foodTableHeader);
+
+if (checked === true) {
+  //setting yelp api settings
+    var yelpSettings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=" + zipCode,
+      "method": "GET",
+      "headers": {
+        "authorization": "Bearer 8OuUJR-QLND67vEyh8486vuUdhCg1r1IhznI1APTqBej4UAifmROjMrw2CBMnEgUMKHk5-6Ln5rCJ59DE0--la2JjRPQxpcyAsC-VujIK6IOeIbuvl9089KC0ad_WXYx",
+        "cache-control": "no-cache",
+        "postman-token": "c6b3fdba-dd4b-d7a6-81db-6431f96e23ee"
+      }
+    };
+
+
+  //Yelp API Call
+  $.ajax(yelpSettings).done(function (responseYelp) {
+    console.log(responseYelp);
+    for (var i = 0; i < 10; i++) {
+    var yelpLong = responseYelp.businesses[i].coordinates.longitude;
+    if (yelpLong === undefined) {
+      yelpLong = '';
+    }
+    var yelpLat = responseYelp.businesses[i].coordinates.latitude;
+    if (yelpLat === undefined) {
+      yelpLat = '';
+    }
+    var yelpLatLong = "{lat:" + yelpLat + "," + "lng:" + yelpLong + "}"
+    var yelpName = "<a href='" + responseYelp.businesses[i].url + "'>" + responseYelp.businesses[i].name + "</a>";
+    var yelpAddress = responseYelp.businesses[i].location.display_address;
+    var yelpPhone = responseYelp.businesses[i].display_phone;
+    var yelpIcon = "<img height='60px' width='auto' src='" + responseYelp.businesses[i].image_url + "' />";
+    
+    // $("#restaurantTable > tbody").append("<tr><td>" + yelpIcon + "</td>" + "<td>" + yelpName + "</td>" + "<td>" + yelpPhone + "</td>" + "<td>" + yelpAddress + "</td>" + "<td class='hide'>" + yelpLong + "</td>" + "<td class='hide'>" + yelpLat + "</td>" +"</tr>");
+    // }
+
+    // Uploads brewery data to the database
+    //database.ref().push(newBrewery);
+    var foodTableContent = '<tbody><td>' + yelpIcon + '</td><td>' + yelpName
+                          + '</td><td>' + yelpPhone + '</td><td>'
+                          + yelpAddress + '</td></tbody>';
+
+    foodTable.append(foodTableContent)
+  };
 });
+console.log(foodTable)
+$("#foodTable").html(foodTable);
+}; //close if
 
+}; //close foodAPI
 
+});
       
