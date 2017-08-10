@@ -282,5 +282,19 @@ $(document).ready(function() {
 
   }; //close foodAPI
 
+
+// songkickAPI
+$.getJSON("http://api.songkick.com/api/3.0/events.json?&location=clientip&apikey=5LOMbZ6HSzTdcX4e&jsoncallback=?",function(data) {
+
+console.log(data.resultsPage.results);
+
+for (var i = 0; i < 10; i++) {
+  console.log(data.resultsPage.results.event[i].displayName);
+  var tr = $('<tr/>');
+  $(tr).append("<td>" + "<a href=" + data.resultsPage.results.event[i].uri + ">" + data.resultsPage.results.event[i].displayName + "</a>" + "</td>");
+  $(tr).append("<td>" + data.resultsPage.results.event[i].location.city + "</td>");
+  $('.table1').append(tr); 
+};// close songkickAPI
+
 });
       
