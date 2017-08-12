@@ -44,8 +44,10 @@ $(document).ready(function() {
 
     // console.log(weatherData);
 
-    zipCodeAPI(locationData.zip, locationData.isoCode);
-  
+    zipCodeAPI(locationData.zip, locationData.isoCode).then(function (latLon) {
+      eventsAPI(latLon.latFromZip, latLon.lonFromZip, eventsBox);
+    });    
+
     beerAPI(locationData.zip, beerBox);
 
     foodAPI(locationData.zip, foodBox);
@@ -57,13 +59,19 @@ $(document).ready(function() {
 
   function zipCodeAPI(zipCode, isoCode) {
     //zipcode API Call, getting long and lat from zipcode
-    $.getJSON('https://cors-anywhere.herokuapp.com/' 
+   
+    return $.getJSON('https://cors-anywhere.herokuapp.com/' 
     + ('https://www.zipcodeapi.com/rest/7c8osAOLPeY94rdTAYZIARGO66qjzzBHLK6ekV0aaZjeqx80v8J6ZqU5wlo6U0OG/info.json/' 
-    + zipCode + '/degrees'), function(response){
+    + zipCode + '/degrees')).then(function(response){
       console.log(response);
       locationData = Object.assign({},locationData, {lat: response.lat, lng: response.lng, city: response.city} );
-      latFromZip = response.lat;
-      lonFromZip = response.lng;
+      var latFromZip = response.lat;
+      var lonFromZip = response.lng;
+      var latLon = {
+        latFromZip: latFromZip,
+        lonFromZip: lonFromZip
+      }
+      return latLon;
       //return { lat: response.lat, lng: response.lng };    
       console.log(locationData);
       console.log("lat: " + latFromZip);
@@ -132,6 +140,40 @@ $(document).ready(function() {
     };
 
   };
+
+    function eventsAPI(latFromZip, lonFromZip, checked)  {
+      console.log(latFromZip, lonFromZip)
+      if (checked === true) {  
+
+        var event = $('<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">Events</h3>'
+                    + '</div><div class="panel-body"><div id="eventsTable"></div></div></div>');
+
+        $("#events").html(event);
+
+        var eventsTable = $("<table>");
+
+        eventsTable.addClass("table table-hover");
+
+        var eventsTableHeader = $("<thead><tr><th>Location</th><th>Events</th></tr></thead>");
+
+        eventsTable.append(eventsTableHeader);
+
+        $.getJSON('https://api.songkick.com/api/3.0/events.json?&location=geo:' + latFromZip + ',' + lonFromZip + '&apikey=5LOMbZ6HSzTdcX4e&jsoncallback=?',function(data) {
+        console.log("events", data.resultsPage.results);
+        for (var i = 0; i < 10; i++) {
+          var eventsName = "<a href=" + data.resultsPage.results.event[i].uri + ">" + data.resultsPage.results.event[i].displayName + "</a>";
+        
+          var eventsLocation = data.resultsPage.results.event[i].location.city;
+
+          var eventsTableContent = '<tbody><td>' + eventsLocation + '</td><td>' + eventsName + '</td></tbody>';
+
+          eventsTable.append(eventsTableContent);
+        }
+    });
+  }
+  $("#eventsTable").html(eventsTable);
+  }
+
 
   //beer stuff
   function beerAPI(zipCode, checked) {
@@ -309,20 +351,5 @@ function foodAPI(zipCode, checked) {
 
   }; //close foodAPI
 
-
-// songkickAPI
-$.getJSON("http://api.songkick.com/api/3.0/events.json?&location=clientip&apikey=5LOMbZ6HSzTdcX4e&jsoncallback=?",function(data) {
-
-console.log(data.resultsPage.results);
-
-for (var i = 0; i < 10; i++) {
-  console.log(data.resultsPage.results.event[i].displayName);
-  var tr = $('<tr/>');
-  $(tr).append("<td>" + "<a href=" + data.resultsPage.results.event[i].uri + ">" + data.resultsPage.results.event[i].displayName + "</a>" + "</td>");
-  $(tr).append("<td>" + data.resultsPage.results.event[i].location.city + "</td>");
-  $('.table1').append(tr); 
- }
-
-});// close songkickAPI
 
 });
