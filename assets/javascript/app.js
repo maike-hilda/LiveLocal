@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  //Doc Ready Hide results div
-  $('.info-results').hide();
   // Initialize Firebase
   var config = {
       apiKey: "AIzaSyBeOFAweBtSqKpoKdQZpEDtNVjXJeH5rOw",
@@ -21,7 +19,6 @@ $(document).ready(function() {
   //submit button
   $("#submitButton").on("click", function(){
     event.preventDefault();
-    $('.info-results').show();
     var foodBox = document.getElementById("beerBox").checked;
     var eventsBox = document.getElementById("eventsBox").checked;
     var weatherBox = document.getElementById("weatherBox").checked;
