@@ -61,9 +61,12 @@ $(document).ready(function() {
     + zipCode + '/degrees'), function(response){
       console.log(response);
       locationData = Object.assign({},locationData, {lat: response.lat, lng: response.lng, city: response.city} );
-
+      latFromZip = response.lat;
+      lonFromZip = response.lng;
       //return { lat: response.lat, lng: response.lng };    
       console.log(locationData);
+      console.log("lat: " + latFromZip);
+      console.log("long: " + lonFromZip);
     });
 
   };
