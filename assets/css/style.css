@@ -2,15 +2,43 @@
 /* The hero image */
 .hero-image {
     /* The image used */
-    /*background-image: url("../images/mashtun65.jpg");*/
-    background-image: url("../images/kerfuffle85.jpg");
+    
+    background-image: url("../images/kerfuffle65.jpg");
     padding-top: 30px;
-    height: 1000px;
+    height: 650px;
     background-color: #333;
     background-size: cover;
     background-position: center center;
 }
 
+.pTwo-image {
+	background-image: url("../images/mashtun65.jpg");
+    padding-top: 30px;
+    height: 650px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center center;
+}
+
+.ximg {
+	background-image: url("../images/make-beer-not-war65.jpg");
+	margin-top: 25px;
+	padding-top: 30px;
+	height: 650px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center center;
+}
+
+.yimg {
+	background-image: url("../images/golden-road65.jpg");
+	margin-top: 25px;
+	padding-top: 30px;
+	height: 650px;
+    background-color: #333;
+    background-size: cover;
+    background-position: center center;	
+}
 
 
 /* Hero Text */
@@ -110,16 +138,24 @@ nav.fill ul li a:hover:after {
 }
 
 /* Results Div */
-#beer {
-	margin-top: 600px;
+/*#beer {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 400px;
 }
-
-
+*/
 
 
 /* Media Rules */
 
 @media screen and (max-width: 768px) {
+
+[class*="col-"] {
+	width: 100%;
+}	
 
 .hero-text {
     text-align: center;
@@ -133,8 +169,8 @@ nav.fill ul li a:hover:after {
 		width: 300px;
 	}
 
-#beer {
+/*#beer {
 	margin-top: 500px;
-}
+}*/
 
 }
