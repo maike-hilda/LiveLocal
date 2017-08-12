@@ -20,7 +20,7 @@ $(document).ready(function() {
   //submit button
   $("#submitButton").on("click", function(){
     event.preventDefault();
-    var foodBox = document.getElementById("beerBox").checked;
+    var foodBox = document.getElementById("foodBox").checked;
     var eventsBox = document.getElementById("eventsBox").checked;
     var weatherBox = document.getElementById("weatherBox").checked;
     var beerBox = document.getElementById("beerBox").checked;
