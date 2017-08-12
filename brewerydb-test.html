@@ -34,14 +34,47 @@
             </tr>
           </thead>
           <tbody>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
           </tbody>
         </table>
       </div>
     </div>
+
+    <div class="panel panel-danger">
+      <div class="panel-heading">Weather List</div>
+      <div class="panel-body">
+        <table class="table table-hover" id="weatherTable">
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Temperature</th>
+              <th>Humidity</th>
+              <th>Wind</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel panel-danger">
+      <div class="panel-heading">Restaurant List</div>
+      <div class="panel-body">
+        <table class="table table-hover" id="restaurantTable">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Name of Establishment</th>
+              <th>Phone Number</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div class="panel panel-primary">
       <div class="panel-heading">Search for Breweries</div>
       <div class="panel-body">
@@ -67,27 +100,130 @@
     </div>
   </div>
 <script type="text/javascript">
+var isoCode = "US";
+var zipCode = "92626";
 
-$.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=92626') + '&callback=?', function(response){
-  console.log(response.contents);
+//setting yelp api settings
 
-  var firstRowTds = $("#breweryTable")
-      .children()
-      .eq(1)
-      .children("tr")
-      .eq(0)
-      .children("td");
+var yelpSettings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?location=" + zipCode,
+  "method": "GET",
+  "headers": {
+    "authorization": "Bearer 8OuUJR-QLND67vEyh8486vuUdhCg1r1IhznI1APTqBej4UAifmROjMrw2CBMnEgUMKHk5-6Ln5rCJ59DE0--la2JjRPQxpcyAsC-VujIK6IOeIbuvl9089KC0ad_WXYx",
+    "cache-control": "no-cache",
+    "postman-token": "c6b3fdba-dd4b-d7a6-81db-6431f96e23ee"
+  }
+}
 
-    // Setting the inner text of each td in the first row
-    firstRowTds.eq(0).html('<img width="auto" height="auto" src="' + response.contents.data[0].brewery.images.icon + '"' + ' />');
+//Yelp API Call
 
-    firstRowTds.eq(1).text(response.contents.data[0].brewery.name);
-    console.log(response.contents.data[0].brewery.name);
+$.ajax(yelpSettings).done(function (responseYelp) {
+  console.log(responseYelp);
 
-    firstRowTds.eq(2).text(response.contents.data[0].phone);
-    console.log(response.contents.data[0].phone);
+  for (var i = 0; i < 10; i++) {
 
-    firstRowTds.eq(3).text(response.contents.data[0].streetAddress + ", " + response.contents.data[0].name + ", " + response.contents.data[0].region + " " + response.contents.data[0].postalCode);
+  var yelpLong = responseYelp.businesses[i].coordinates.longitude;
+  if (yelpLong === undefined) {
+    yelpLong = '';
+  }
+  var yelpLat = responseYelp.businesses[i].coordinates.latitude;
+  if (yelpLat === undefined) {
+    yelpLat = '';
+  }
+
+  var yelpLatLong = "{lat:" + yelpLat + "," + "lng:" + yelpLong + "}"
+  var yelpName = "<a href='" + responseYelp.businesses[i].url + "'>" + responseYelp.businesses[i].name + "</a>";
+  var yelpAddress = responseYelp.businesses[i].location.display_address;
+  var yelpPhone = responseYelp.businesses[i].display_phone;
+  var yelpIcon = "<img height='60px' width='auto' src='" + responseYelp.businesses[i].image_url + "' />";
+  
+  $("#restaurantTable > tbody").append("<tr><td>" + yelpIcon + "</td>" + "<td>" + yelpName + "</td>" + "<td>" + yelpPhone + "</td>" + "<td>" + yelpAddress + "</td>" + "<td class='hide'>" + yelpLong + "</td>" + "<td class='hide'>" + yelpLat + "</td>" +"</tr>");
+
+  }
+
+});
+
+//openweathermap API Call
+
+$.getJSON('https://cors-anywhere.herokuapp.com/' + ('http://api.openweathermap.org/data/2.5/forecast/daily?zip=' + zipCode + ',' + isoCode + '&units=imperial&appid=83a97e384d973f3a79b1c419080a0e41&cnt=5' ), function(responseWeather){
+  console.log(responseWeather);
+
+  var oneDayTempCity = responseWeather.city.name;
+  var oneDayTempDay = responseWeather.list[0].temp.day;
+  var oneDayTempMax = responseWeather.list[0].temp.max;
+  var oneDayTempMin = responseWeather.list[0].temp.min;
+  var oneDayTempNight = responseWeather.list[0].temp.night;
+
+  var oneDayHumidity = responseWeather.list[0].humidity;
+  var oneDayWind = responseWeather.list[0].speed;
+  var oneDayIcon = "http://openweathermap.org/img/w/" + responseWeather.list[0].weather[0].icon + ".png";
+  console.log(oneDayIcon);
+
+  $("#weatherTable > tbody").append("<tr><td>" + oneDayTempCity + "<img src='" + oneDayIcon + "'/></td>" + "<td>" + oneDayTempDay + "&deg; ( High: " + oneDayTempMax +"&deg; / Low: " + oneDayTempMin + "&deg; ) </td>" + "<td>" + oneDayHumidity + "% </td>" + "<td>" + oneDayWind + " MPH</td>" + "</tr>");
+
+  var newForecast = {
+  dayOneTempDuringDay:  oneDayTempDay,
+  dayOneTempMax: oneDayTempMax,
+  dayOneTempMin: oneDayTempMin,
+  dayOneTempDuringNight: oneDayTempNight,
+  dayOneHumidity: oneDayHumidity,
+  dayOneWind: oneDayWind,
+  dayOneIcon: oneDayIcon
+  }
+});
+
+//breweryDB API Call
+
+$.getJSON('https://cors-anywhere.herokuapp.com/' + ('https://api.brewerydb.com/v2/locations?key=cead0935bcae01ba063baf6bfb4b5988&postalCode=' + zipCode), function(response){
+  console.log(response);
+
+  for (var i = 0; i < 10; i++) {
+
+    var breweryLong = response.data[i].longitude;
+    if (breweryLong === undefined) {
+      breweryLong = '';
+    }
+    var breweryLat = response.data[i].latitude;
+    if (breweryLat === undefined) {
+      breweryLat = '';
+    }
+
+    // {
+    //   lat: response.contents.data[i].latitude,
+    //   lng: response.contents.data[i].longitude
+    // }
+
+    // JSON.stringify(something)
+
+    var breweryLatLong = "{lat:" + breweryLat + "," + "lng:" + breweryLong + "}"
+    var breweryHours = response.data[i].hoursOfOperation;
+    var breweryIcons = '<a data-toggle="tooltip" data-placement="top" title="' + breweryHours + '" href="' + response.data[i].website +'">' + '<img width="auto" height="auto" src="' + response.data[i].brewery.images.icon + '"' + ' /></a>';
+    var breweryNames = '<a data-toggle="tooltip" data-placement="top" title="' + breweryHours + '" href="' + response.data[i].website +'">' + response.data[i].brewery.name + '</a>';
+    //var breweryWebsite = '<a href="' + response.contents.data[i].website +'">' + response.contents.data[i].brewery.name + '</a>';
+    var breweryPhones = response.data[i].phone;
+    var breweryAddresses = response.data[i].streetAddress + ", " + response.data[i].locality + ", " + response.data[i].region + " " + response.data[i].postalCode;
+
+    if (breweryHours === undefined) {
+      breweryHours = ''
+    }
+
+    // Local temporary object holding brewery data
+    var newBrewery = {
+      name:  breweryNames,
+      location: breweryLatLong,
+      hours: breweryHours,
+      icon: breweryIcons,
+      phone: breweryPhones,
+      address: breweryAddresses
+    }
+    console.log(newBrewery);
+    // Uploads brewery data to the database
+    database.ref().push(newBrewery);
+
+    $("#breweryTable > tbody").append("<tr><td>" + breweryIcons + "</td>" + "<td>" + breweryNames + "</td>" + "<td>" + breweryPhones + "</td>" + "<td>" + breweryAddresses + "</td>" + "<td class='hide'>" + breweryLong + "</td>" + "<td class='hide'>" + breweryLat + "</td>" +"</tr>");
+  }
 
 });
 
