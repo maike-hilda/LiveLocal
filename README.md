@@ -1,9 +1,11 @@
 # LiveLocal
-GroupProjectOne_CodingBootcamp
 
-Project Manager (github): Maike
-UI/UX: Jeanine
+Project Manager / Github / JavaScript / JQuery: Maike
+
+UI/UX / HTML / CSS: Jeanine
+
 Presentation Manager: Nathan
-APIs: Nick, Charles
+
+API calls: Nick, Charles
 
 
